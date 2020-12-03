@@ -545,7 +545,9 @@ RCT_EXPORT_METHOD(getSupportedAbis:(RCTPromiseResolveBlock)resolve rejecter:(RCT
                         [ifname isEqualToString:@"en1"]
                     ) {
                         // Get NSString from C String
-                        address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+                        char str[INET_ADDRSTRLEN];
+                        inet_ntop(AF_INET, &((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr, str, INET_ADDRSTRLEN);
+                        subnet = [NSString stringWithUTF8String:str];
                     }
             }
             temp_addr = temp_addr->ifa_next;
